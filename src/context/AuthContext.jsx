@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '../services/firebase';
+import { USER_STATUS } from '../constants/roles';
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
-export const useAuth = () => useContext(AuthContext);
 
 // 🛠️ Helper to fetch from your backend with auth token
 const authenticatedFetch = async (endpoint, options = {}) => {

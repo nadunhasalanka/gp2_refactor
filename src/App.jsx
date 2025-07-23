@@ -1,16 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import ProtectedRoute from './components/protected/ProtectedRoute'
+import ProtectedRoute from './components/protected/ProtectedRoute';
+import { ROUTES } from './constants/routes';
 
 import Home from './pages/Common/Home';
 import Dashboard from './pages/Lawyer/Dashboard';
-// import SignUp from './pages/Common/SignUp';
 
 import Timeline from './pages/Lawyer/Timeline';
 import Incomes from './pages/Lawyer/Incomes';
-// import DaySummary from './pages/Lawyer/DaySummary';
 import AddClient from './pages/Lawyer/AddNewClient';
-// import Meetings from './pages/Lawyer/MeetingRequest';
 import Clients from './pages/Lawyer/Clients';
 import ScheduleMeeting from './pages/Client/ScheduleMeeting';
 import Lawyercalander from './pages/Lawyer/Lawyercalender';
@@ -39,74 +37,180 @@ import AdminAnalytics from './pages/Admin/ViewAnalytics';
 import ClientDashboard from './pages/Client/Clientdashboard';
 import Clientcaseprofiles from './pages/Client/Clientcaseprofiles';
 import ClientCalendar from './pages/Client/Clientcalendar';
-import AddNextHearingModal from './pages/Lawyer/AddNextHearingDate';
-import LawyerDashboard from './pages/Lawyer/LawyerDashboard';
 import AcceptInvitationPage from './pages/Common/AcceptInvitationPage';
-
 import ClientInvitation from './pages/Client/ClientInvitation';
 import UserOTP from './pages/Common/UserOTP';
-import LawyerAddDocuments from './pages/Lawyer/AddDocuments';
 
 export default function App() {
   return (
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<Home />} />
-          {/* <Route path="signup" element={<SignUp />} />  */}
-          <Route path="admin/dashboard" element={<AdminDashboard />} />
-          <Route path="junior/dashboard" element={<JuniorDashboard/>} />
-          <Route path="client/dashboard" element={<ClientDashboard />} />
-          <Route path="admin/timeline" element={<Timeline />}/>
-          <Route path='lawyer/calendar' element={< Lawyercalander />} />
-          {/* <Route path="lawyer/dashboard" element={<Dashboard />} /> */}
-          <Route path="lawyer/timeline" element={<Timeline />} />
-          <Route path="lawyer/incomes" element={<Incomes />} />
-          {/* <Route path="lawyer/day-summary" element={<DaySummary />} /> */}
-          {/* <Route path="lawyer/meetingrequest" element={<Meetings />} /> */}
-          <Route path="lawyer/clients" element={<Clients />} />
-          <Route path="client/schedulemeeting" element={<ScheduleMeeting />} />
-          {/* client case profiles  */}
-          <Route path="client/caseprofiles" element={<CaseProfiles />} />
-          <Route path="client/clientcalendar" element={<ClientCalendar />} />
-          <Route path='/lawyer/messages' element={<Messages />} />
-          <Route path="user/signup" element={<UserSignUp />} />
-          <Route path="user/login" element={<UserLogin />} />
-          <Route path="user/otp" element={<UserOTP />} />
-          <Route path="lawyer/caseprofile" element={<CaseProfiles />} />
-          <Route path="lawyer/case/:caseId" element={<CaseDetails />} />
-          <Route path="lawyer/newcaseprofile" element={<NewCaseProfile />} />
-          <Route path="lawyer/cases" element={<Cases />} />
-          <Route path="lawyer/duepayments" element={<DuePayments />} />
-          <Route path="lawyer/addnewjunior" element={<AddJunior />} />
-          <Route path="admin/systemsettings" element={<SystemSettings />} />
-          <Route path="admin/packagemanagement" element={<PackageManagement />} />
-          <Route path="junior/cases" element={<AssignedCases/>} />
-          <Route path="junior/tasks" element={<Tasks/>} />
-          <Route path="junior/messages" element={<JuniorMessages/>} />
-          <Route path="junior/hearings" element={<JuniorHearings/>} />
-          <Route path="lawyer/accountusers" element={<AccountUsers />} />
-          <Route path="*" element={<NotFoundPage />} />
-          <Route path="admin/usermanagement" element={<UserManagement />} />
-          <Route path="admin/viewmessages" element={<ViewMessages />} />
-          <Route path="admin/viewanalytics" element={<AdminAnalytics />} />
-          {/* client case profiles  */}
-          {/* <Route path="client/caseprofiles" element={<Clientcaseprofiles />} /> */}
-          {/* <Route path="/invitation/:inviteToken" element={<ClientInvitation />} />   */}
 
-          <Route path="lawyer/dashboard" element={<ProtectedRoute allowedRoles={['LAWYER']}>
-            <Dashboard />
-          </ProtectedRoute>} />
-          <Route path="lawyer/:caseId/addnewclient" element={<ProtectedRoute allowedRoles={['LAWYER']}>
-            <AddClient />
-          </ProtectedRoute>} /> */}
 
-          {/* testing routes */}
-          <Route path="lawyer/dashboard" element={<Dashboard />} />
-          <Route path="accept-invitation/:token" element={<AcceptInvitationPage />} />
- 
-          <Route path="/invitation/:inviteToken" element={<ClientInvitation />} /> 
-          <Route path="lawyer/addnexthearing" element={<AddNextHearingModal />} />  
+          {/* Public Routes */}
+          <Route path={ROUTES.HOME} element={<Home />} />
+          <Route path={ROUTES.LOGIN} element={<UserLogin />} />
+          <Route path={ROUTES.SIGNUP} element={<UserSignUp />} />
+          <Route path={ROUTES.OTP} element={<UserOTP />} />
+          <Route path={ROUTES.ACCEPT_INVITATION} element={<AcceptInvitationPage />} />
+          <Route path={ROUTES.CLIENT_INVITATION} element={<ClientInvitation />} />
+          
+          {/* Lawyer Routes */}
+          <Route path={ROUTES.LAWYER.DASHBOARD} element={
+            <ProtectedRoute allowedRoles={['LAWYER']}>
+              <Dashboard />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.LAWYER.CASE_PROFILE} element={
+            <ProtectedRoute allowedRoles={['LAWYER']}>
+              <CaseProfiles />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.LAWYER.CASE_DETAILS} element={
+            <ProtectedRoute allowedRoles={['LAWYER']}>
+              <CaseDetails />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.LAWYER.NEW_CASE} element={
+            <ProtectedRoute allowedRoles={['LAWYER']}>
+              <NewCaseProfile />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.LAWYER.CASES} element={
+            <ProtectedRoute allowedRoles={['LAWYER']}>
+              <Cases />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.LAWYER.CALENDAR} element={
+            <ProtectedRoute allowedRoles={['LAWYER']}>
+              <Lawyercalander />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.LAWYER.TIMELINE} element={
+            <ProtectedRoute allowedRoles={['LAWYER']}>
+              <Timeline />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.LAWYER.INCOMES} element={
+            <ProtectedRoute allowedRoles={['LAWYER']}>
+              <Incomes />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.LAWYER.DUE_PAYMENTS} element={
+            <ProtectedRoute allowedRoles={['LAWYER']}>
+              <DuePayments />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.LAWYER.CLIENTS} element={
+            <ProtectedRoute allowedRoles={['LAWYER']}>
+              <Clients />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.LAWYER.MESSAGES} element={
+            <ProtectedRoute allowedRoles={['LAWYER']}>
+              <Messages />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.LAWYER.ACCOUNT_USERS} element={
+            <ProtectedRoute allowedRoles={['LAWYER']}>
+              <AccountUsers />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.LAWYER.ADD_JUNIOR} element={
+            <ProtectedRoute allowedRoles={['LAWYER']}>
+              <AddJunior />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.LAWYER.ADD_CLIENT} element={
+            <ProtectedRoute allowedRoles={['LAWYER']}>
+              <AddClient />
+            </ProtectedRoute>
+          } />
+          
+          {/* Junior Lawyer Routes */}
+          <Route path={ROUTES.JUNIOR.DASHBOARD} element={
+            <ProtectedRoute allowedRoles={['JUNIOR']}>
+              <JuniorDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.JUNIOR.CASES} element={
+            <ProtectedRoute allowedRoles={['JUNIOR']}>
+              <AssignedCases />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.JUNIOR.TASKS} element={
+            <ProtectedRoute allowedRoles={['JUNIOR']}>
+              <Tasks />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.JUNIOR.MESSAGES} element={
+            <ProtectedRoute allowedRoles={['JUNIOR']}>
+              <JuniorMessages />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.JUNIOR.HEARINGS} element={
+            <ProtectedRoute allowedRoles={['JUNIOR']}>
+              <JuniorHearings />
+            </ProtectedRoute>
+          } />
+          
+          {/* Client Routes */}
+          <Route path={ROUTES.CLIENT.DASHBOARD} element={
+            <ProtectedRoute allowedRoles={['CLIENT']}>
+              <ClientDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.CLIENT.CASE_PROFILES} element={
+            <ProtectedRoute allowedRoles={['CLIENT']}>
+              <Clientcaseprofiles />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.CLIENT.CALENDAR} element={
+            <ProtectedRoute allowedRoles={['CLIENT']}>
+              <ClientCalendar />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.CLIENT.SCHEDULE_MEETING} element={
+            <ProtectedRoute allowedRoles={['CLIENT']}>
+              <ScheduleMeeting />
+            </ProtectedRoute>
+          } />
+          
+          {/* Admin Routes */}
+          <Route path={ROUTES.ADMIN.DASHBOARD} element={
+            <ProtectedRoute allowedRoles={['ADMIN']}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.ADMIN.SYSTEM_SETTINGS} element={
+            <ProtectedRoute allowedRoles={['ADMIN']}>
+              <SystemSettings />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.ADMIN.PACKAGE_MANAGEMENT} element={
+            <ProtectedRoute allowedRoles={['ADMIN']}>
+              <PackageManagement />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.ADMIN.USER_MANAGEMENT} element={
+            <ProtectedRoute allowedRoles={['ADMIN']}>
+              <UserManagement />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.ADMIN.VIEW_MESSAGES} element={
+            <ProtectedRoute allowedRoles={['ADMIN']}>
+              <ViewMessages />
+            </ProtectedRoute>
+          } />
+          <Route path={ROUTES.ADMIN.VIEW_ANALYTICS} element={
+            <ProtectedRoute allowedRoles={['ADMIN']}>
+              <AdminAnalytics />
+            </ProtectedRoute>
+          } />
+          
+          {/* 404 Route */}
+          <Route path={ROUTES.NOT_FOUND} element={<NotFoundPage />} />
 
         </Routes>
       </div>
